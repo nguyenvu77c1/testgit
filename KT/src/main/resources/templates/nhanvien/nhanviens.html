@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+<head>
+    <title>Danh Sách Nhân Viên</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #3a1c71, #d76d77, #ffaf7b);
+            color: #fff;
+        }
+        .table {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: black; /* Change the font color to black for table contents */
+        }
+        .table th, .table td {
+            color: black; /* Ensure all table data cells have black text */
+        }
+        .btn-primary {
+            background-color: #ff6a00;
+            border-color: #ff6a00;
+        }
+        .btn-primary:hover {
+            background-color: #e65c00;
+            border-color: #e65c00;
+        }
+        .btn-warning, .btn-danger {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h2 class="text-center">Danh Sách Nhân Viên</h2>
+        <a href="/nhanviens/new" class="btn btn-primary mb-3" sec:authorize="hasAnyAuthority('ADMIN')">Thêm Nhân Viên</a>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Mã NV</th>
+                <th>Tên NV</th>
+                <th>Giới Tính</th>
+                <th>Nơi Sinh</th>
+                <th>Tên Phòng</th>
+                <th>Lương</th>
+                <th sec:authorize="hasAnyAuthority('ADMIN')">Hành Động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="nhanVien : ${nhanViens}">
+                <td th:text="${nhanVien.maNV}" style="color: black;"></td>
+                <td th:text="${nhanVien.tenNV}" style="color: black;"></td>
+                <td>
+                    <img th:src="${nhanVien.phai == 'NU' ? '/images/woman.png' : '/images/man.png'}" alt="Giới Tính" width="50" height="50">
+                </td>
+                <td th:text="${nhanVien.noiSinh}" style="color: black;"></td>
+                <td th:text="${nhanVien.phongBan != null ? nhanVien.phongBan.tenPhong : 'N/A'}" style="color: black;"></td>
+                <td th:text="${nhanVien.luong}" style="color: black;"></td>
+                <td sec:authorize="hasAnyAuthority('ADMIN')">
+                    <a th:href="@{/nhanviens/edit/{id}(id=${nhanVien.maNV})}" class="btn btn-warning btn-sm" >Sửa</a>
+                    <a th:href="@{/nhanviens/delete/{id}(id=${nhanVien.maNV})}" class="btn btn-danger btn-sm" >Xóa</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

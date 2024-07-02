@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Nhân Viên</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #3a1c71, #d76d77, #ffaf7b);
+            color: #fff;
+        }
+        .form-control {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+        .form-control::placeholder {
+            color: #ccc;
+        }
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <h2 class="text-center">Thêm Nhân Viên</h2>
+    <form th:action="@{/nhanviens}" th:object="${nhanVien}" method="post">
+        <div class="form-group">
+            <label for="maNV">Mã Nhân Viên</label>
+            <input type="text" id="maNV" th:field="*{maNV}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="tenNV">Tên Nhân Viên</label>
+            <input type="text" id="tenNV" th:field="*{tenNV}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="phai">Giới Tính</label>
+            <select id="phai" th:field="*{phai}" class="form-control" required>
+                <option value="NAM">Nam</option>
+                <option value="NU">Nữ</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="noiSinh">Nơi Sinh</label>
+            <input type="text" id="noiSinh" th:field="*{noiSinh}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="phongBanId">Tên Phòng</label>
+            <select id="phongBanId" name="phongBanId" class="form-control" required>
+                <option th:each="phongBan : ${phongBans}" th:value="${phongBan.maPhong}" th:text="${phongBan.tenPhong}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="luong">Lương</label>
+            <input type="number" id="luong" th:field="*{luong}" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success">Lưu</button>
+        <a href="/nhanviens" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>
+</body>
+</html>
